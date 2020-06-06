@@ -1,0 +1,16 @@
+CREATE TABLE users
+(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    password_hash CHAR(60) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    deleted_at TIMESTAMP NULL DEFAULT NULL
+);
+
+INSERT INTO users (email, name, password_hash)
+VALUES ('test@mail.ru', 'Admin', '$2y$10$EywimCX5CqbWtZd168f5GePKBWKTcG0a4WDVoIjNnNoiurF8IX9Ai'),
+       ('testOne@mail.ru', 'One', '$2y$10$FYQ2ue9Fy1/VyrTVmUWi1u6Y6Jh9JdtsO8XxpujpSHhEI2BsgffTy'),
+       ('testTwo@mail.ru', 'Two', '$2y$10$9XOYfaEfNMZF22X7wCo5nevC8CHv1WAU3bbUws.R2qwFAkJ0mlSnG'),
+       ('testThree@mail.ru', 'Three', '$2y$10$HgYsmI48zfaPKM49K3/6n.0w.Sbz1/OeUF2L72hRzKJyxmjXvR/z6');
