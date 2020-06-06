@@ -17,6 +17,7 @@
     "ext-mysqli": "*",
     "slim/slim": "4.3",
     "slim/psr7": "0.6.0",
-    "illuminate/database": "^7.14"
+    "illuminate/database": "^7.14",
+    "vlucas/phpdotenv": "^4.1"
   }
 }
