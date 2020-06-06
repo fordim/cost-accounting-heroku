@@ -12,6 +12,12 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
 
+if (php_sapi_name() == 'cli-server') {
+    if (preg_match('/\.(?:png|jpg|jpeg|gif|svg|css|js)$/', $_SERVER["REQUEST_URI"])) {
+        return false;    // serve the requested resource as-is.
+    }
+}
+
 $capsule = new Capsule;
 
 var_dump('Hello world, test, test');
