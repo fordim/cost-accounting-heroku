@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -9,7 +9,7 @@ use Slim\Factory\AppFactory;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/cost-accounting-heroku');
 $dotenv->load();
 
 $capsule = new Capsule;
