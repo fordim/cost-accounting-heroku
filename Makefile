@@ -3,5 +3,4 @@ start:
 
 release:
 	./release-tasks.sh
-	vendor/bin/heroku-php-nginx -C nginx_app.conf
-
+	vendor/bin/heroku-php-nginx -C nginx_app.conf public/
