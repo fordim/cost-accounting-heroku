@@ -3,3 +3,5 @@ start:
 
 release:
 	./release-tasks.sh
+	vendor/bin/heroku-php-apache2 public/
+
