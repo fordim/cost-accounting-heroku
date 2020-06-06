@@ -29,4 +29,6 @@ $app = AppFactory::create();
 
 var_dump(Capsule::table('users')->get());
 
+echo "<img src='/img/tux.svg'>";
+
 $app->run();
