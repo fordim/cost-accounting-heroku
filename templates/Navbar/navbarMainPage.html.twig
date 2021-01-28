@@ -28,22 +28,8 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form name="formSignIn" action="" method="POST">
-                        <div class="form-group">
-                            <label for="signInInputEmail">Электронная почта</label>
-                            <input type="email" name="email" class="form-control" id="signInInputEmail" aria-describedby="signInEmailHelp" placeholder="Почта" required>
-                            <small id="signInEmailHelp" class="form-text text-muted">Введите ваш адрес электронной почты</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="signInInputPass">Пароль</label>
-                            <input type="password" name="password" class="form-control" id="signInInputPass" aria-describedby="signInPassHelp" placeholder="Пароль" required>
-                            <small id="signInPassHelp" class="form-text text-muted">Введите ваш пароль</small>
-                        </div>
-                        <button type="submit" name="sendFormSignIn" class="btn btn-primary" value="SignIn">Войти</button>
-                        <small id="regHelp" class="form-text text-muted">Если у вас нет учетной записи, пройдите
-                            <a href="{{ asset('/signUp') }}" class="link">регистрацию</a>
-                        </small>
-                    </form>
+                    {{ form_start(formSignIn, {'action': path('signIn'), 'method': 'POST'}) }}
+                    {{ form_end(formSignIn) }}
                 </div>
             </div>
         </div>

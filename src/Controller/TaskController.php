@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Entity\Users;
-use App\Form\Type\TaskType;
+use App\Form\Type\SignUpFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class TaskController extends AbstractController
         // just setup a fresh $task object (remove the example data)
         $task = new Task();
 
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(SignUpFormType::class, $task);
 
 //        dd($form);
 

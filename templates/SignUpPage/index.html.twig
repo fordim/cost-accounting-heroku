@@ -3,7 +3,8 @@
 <main class="background-color: bg-white container-fluid text-center">
     <div class="mainForm">
         <img src="{{ asset('images/registration.jpg') }}" alt="Sign Up">
-        {{ form(form) }}
+        {{ form_start(formSignUp, {'action': path('signUp_page'), 'method': 'POST'}) }}
+        {{ form_end(formSignUp) }}
     </div>
 </main>
 <footer class="page-footerfont-small bg-secondary container-fluid text-center">

@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Controller;
 
-use App\Entity\Task;
 use App\Entity\Users;
-use App\Form\Type\TaskType;
+use App\Form\Type\SignInFormType;
+use App\Form\Type\SignUpFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,38 +15,39 @@ class SignUpController extends AbstractController
     /**
      * @Route("/signUp", name="signUp_page")
      */
-
     public function index(Request $request): Response
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
+        $requestUser = new Users();
+        $formSignIn = $this->createForm(SignInFormType::class, $requestUser);
+        $formSignUp = $this->createForm(SignUpFormType::class, $requestUser);
+        $formSignUp->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $task = $form->getData();
-            $task->setCreatedAt(new \DateTime());
-            $task->setPasswordHash(password_hash($task->getPasswordHash(), PASSWORD_DEFAULT));
+        if ($formSignUp->isSubmitted() && $formSignUp->isValid()) {
+            $requestUser = $formSignUp->getData();
+            $requestUser->setCreatedAt(new \DateTime());
+            $requestUser->setPasswordHash(password_hash($requestUser->getPasswordHash(), PASSWORD_DEFAULT));
 
-            $response = $this->createUser($task);
+            $response = $this->createUser($requestUser);
 
-            return $this->redirectToRoute('signUp_page');
-        }
+            return $this->redirectToRoute('cabinet_page');
+        };
 
         return $this->render('SignUpPage/index.html.twig', [
             'title' => 'Регистирация',
-            'form' => $form->createView()
+            'formSignUp' => $formSignUp->createView(),
+            'formSignIn' => $formSignIn->createView()
         ]);
     }
 
-    public function createUser(Task $task): Response
+    private function createUser(Users $requestUser): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = new Users();
-        $user->setEmail($task->getEmail());
-        $user->setName($task->getName());
-        $user->setPasswordHash($task->getPasswordHash());
-        $user->setCreatedAt($task->getCreatedAt());
+        $user->setEmail($requestUser->getEmail());
+        $user->setName($requestUser->getName());
+        $user->setPasswordHash($requestUser->getPasswordHash());
+        $user->setCreatedAt($requestUser->getCreatedAt());
 
         $entityManager->persist($user);
         $entityManager->flush();
