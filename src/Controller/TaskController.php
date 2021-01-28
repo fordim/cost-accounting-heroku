@@ -11,17 +11,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SignUpController extends AbstractController
+class TaskController extends AbstractController
 {
-    /**
-     * @Route("/signUp", name="signUp_page")
-     */
 
-    public function index(Request $request): Response
+    /**
+     * @Route("/task", name="task_page")
+     */
+    public function new(Request $request): Response
     {
+//        dd($request);
+        // just setup a fresh $task object (remove the example data)
         $task = new Task();
+
         $form = $this->createForm(TaskType::class, $task);
+
+//        dd($form);
+
         $form->handleRequest($request);
+
+//        dd($form->getData());
+//        dd($form);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
@@ -33,14 +42,15 @@ class SignUpController extends AbstractController
             return $this->redirectToRoute('signUp_page');
         }
 
-        return $this->render('SignUpPage/index.html.twig', [
-            'title' => 'Регистирация',
-            'form' => $form->createView()
+        return $this->render('Task/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     public function createUser(Task $task): Response
     {
+        // you can fetch the EntityManager via $this->getDoctrine()
+        // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = new Users();
@@ -49,9 +59,12 @@ class SignUpController extends AbstractController
         $user->setPasswordHash($task->getPasswordHash());
         $user->setCreatedAt($task->getCreatedAt());
 
+        // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($user);
+
+        // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
 
-        return new Response('SignUp new user with id '.$user->getId());
+        return new Response('Saved new product with id '.$user->getId());
     }
 }
