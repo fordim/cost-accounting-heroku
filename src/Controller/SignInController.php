@@ -38,12 +38,12 @@ class SignInController extends AbstractController
         $user = $repository->findOneBy(['email' => $requestUser->getEmail()]);
 
         if ($user === null) {
-            return new Response('Nobody match for this email '.$requestUser->getEmail());
+            throw $this->createNotFoundException('Nobody match for this email '.$requestUser->getEmail());
         }
 
         if (!password_verify($requestUser->getPasswordHash(), $user->getPasswordHash())) {
             return new Response('Password does not match this email '.$requestUser->getEmail());
-        };
+        }
 
         return new Response('Login successful with user '. $user->getName());
     }
