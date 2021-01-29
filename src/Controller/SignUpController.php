@@ -53,5 +53,6 @@ class SignUpController extends AbstractController
         $entityManager->flush();
 
         return new Response('SignUp new user with id '.$user->getId());
+        // код ошибки и уже на фронте разруливать (зачем получать весь объект)
     }
 }
