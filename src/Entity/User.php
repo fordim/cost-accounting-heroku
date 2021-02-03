@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=UsersRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table("app_user")
  */
-class Users
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -46,6 +48,11 @@ class Users
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deleted_at;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     public function getId(): ?int
     {
@@ -122,5 +129,44 @@ class Users
         $this->deleted_at = $deleted_at;
 
         return $this;
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function addRoles(array $roles)
+    {
+        $this->roles = array_merge($this->roles, $roles);
+    }
+
+    public function getPassword()
+    {
+        return $this->password_hash;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+
     }
 }

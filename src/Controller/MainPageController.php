@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\Type\SignInFormType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ class MainPageController extends AbstractController
      */
     public function index(): Response
     {
-        $requestUser = new Users();
+        $requestUser = new User();
         $formSignIn = $this->createForm(SignInFormType::class, $requestUser);
 
         return $this->render('MainPage/index.html.twig', [

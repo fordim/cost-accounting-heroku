@@ -2,22 +2,36 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\Type\SignInFormType;
 use App\Form\Type\SignUpFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\SessionService;
 
 class SignUpController extends AbstractController
 {
+    private SessionService $session;
+
+    public function __construct(SessionService $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/signUp", name="signUp_page")
      */
     public function index(Request $request): Response
     {
-        $requestUser = new Users();
+        $this->session->signIn(1, 'Test');
+
+        dd($user = $this->getUser());
+
+//        dd($this->session->getUserId());
+
+        $requestUser = new User();
         $formSignIn = $this->createForm(SignInFormType::class, $requestUser);
         $formSignUp = $this->createForm(SignUpFormType::class, $requestUser);
         $formSignUp->handleRequest($request);
@@ -39,15 +53,18 @@ class SignUpController extends AbstractController
         ]);
     }
 
-    private function createUser(Users $requestUser): Response
+    private function createUser(User $requestUser): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $user = new Users();
+        $user = new User();
         $user->setEmail($requestUser->getEmail());
         $user->setName($requestUser->getName());
+        $user->setRoles(["ROLE_USER"]);
         $user->setPasswordHash($requestUser->getPasswordHash());
         $user->setCreatedAt($requestUser->getCreatedAt());
+
+//        dd($user->getRoles());
 
         $entityManager->persist($user);
         $entityManager->flush();
