@@ -16,7 +16,7 @@ class SignInFormType extends AbstractType
     {
         $builder
             ->add('email',EmailType::class, ['label' => 'Электронная почта', 'help' => 'Введите ваш адрес электронной почты'])
-            ->add('password_hash', PasswordType::class, ['label' => 'Пароль', 'help' => 'Введите ваш пароль'])
+            ->add('password', PasswordType::class, ['label' => 'Пароль', 'help' => 'Введите ваш пароль'])
             ->add('save', SubmitType::class, ['label' => 'Войти'])
         ;
     }

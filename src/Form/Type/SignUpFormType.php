@@ -18,7 +18,7 @@ class SignUpFormType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Имя', 'help' => 'Введите ваше имя'])
             ->add('email',EmailType::class, ['label' => 'Электронная почта', 'help' => 'Введите ваш адрес электронной почты'])
-            ->add('password_hash', PasswordType::class, ['label' => 'Пароль', 'help' => 'Введите ваш пароль'])
+            ->add('password', PasswordType::class, ['label' => 'Пароль', 'help' => 'Введите ваш пароль'])
             ->add('save', SubmitType::class, ['label' => 'Зарегистрироватся'])
         ;
     }

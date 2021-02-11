@@ -49,7 +49,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $credentials = [
             'email' => $request->request->get('sign_in_form')['email'],
-            'password' => $request->request->get('sign_in_form')['password_hash'],
+            'password' => $request->request->get('sign_in_form')['password'],
             'csrf_token' => $request->request->get('sign_in_form')['_token'],
         ];
         $request->getSession()->set(

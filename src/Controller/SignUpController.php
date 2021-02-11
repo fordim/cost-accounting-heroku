@@ -9,15 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\SessionService;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SignUpController extends AbstractController
 {
-    private SessionService $session;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
-    public function __construct(SessionService $session)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->session = $session;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -25,12 +25,6 @@ class SignUpController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $this->session->signIn(1, 'Test');
-
-        dd($user = $this->getUser());
-
-//        dd($this->session->getUserId());
-
         $requestUser = new User();
         $formSignIn = $this->createForm(SignInFormType::class, $requestUser);
         $formSignUp = $this->createForm(SignUpFormType::class, $requestUser);
@@ -39,7 +33,8 @@ class SignUpController extends AbstractController
         if ($formSignUp->isSubmitted() && $formSignUp->isValid()) {
             $requestUser = $formSignUp->getData();
             $requestUser->setCreatedAt(new \DateTime());
-            $requestUser->setPasswordHash(password_hash($requestUser->getPasswordHash(), PASSWORD_DEFAULT));
+
+            $requestUser->setPassword($this->passwordEncoder->encodePassword($requestUser, $requestUser->getPassword()));
 
             $response = $this->createUser($requestUser);
 
@@ -61,10 +56,8 @@ class SignUpController extends AbstractController
         $user->setEmail($requestUser->getEmail());
         $user->setName($requestUser->getName());
         $user->setRoles(["ROLE_USER"]);
-        $user->setPasswordHash($requestUser->getPasswordHash());
+        $user->setPassword($requestUser->getPassword());
         $user->setCreatedAt($requestUser->getCreatedAt());
-
-//        dd($user->getRoles());
 
         $entityManager->persist($user);
         $entityManager->flush();

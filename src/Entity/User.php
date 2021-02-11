@@ -30,9 +30,9 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=255)
      */
-    private $password_hash;
+    private $password;
 
     /**
      * @ORM\Column(type="datetime")
@@ -83,14 +83,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPasswordHash(): ?string
+    public function getPassword(): ?string
     {
-        return $this->password_hash;
+        return $this->password;
     }
 
-    public function setPasswordHash(string $password_hash): self
+    public function setPassword(string $password): self
     {
-        $this->password_hash = $password_hash;
+        $this->password = $password;
 
         return $this;
     }
@@ -148,11 +148,6 @@ class User implements UserInterface
     public function addRoles(array $roles)
     {
         $this->roles = array_merge($this->roles, $roles);
-    }
-
-    public function getPassword()
-    {
-        return $this->password_hash;
     }
 
     public function getSalt()

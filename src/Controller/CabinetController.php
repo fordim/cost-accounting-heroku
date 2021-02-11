@@ -30,7 +30,7 @@ class CabinetController extends AbstractController
 //        dd($this->tokenStorage->getToken());
 
         //Доставать токен и всю инфу по юзеру который залогинен
-        dd($user = $this->getUser());
+//        dd($user = $this->getUser());
 
         return $this->render('Cabinet/index.html.twig', [
             'title' => 'Кабинет'

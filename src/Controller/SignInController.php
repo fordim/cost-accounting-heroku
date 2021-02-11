@@ -48,7 +48,7 @@ class SignInController extends AbstractController
             throw $this->createNotFoundException('Nobody match for this email '.$requestUser->getEmail());
         }
 
-        if (!password_verify($requestUser->getPasswordHash(), $user->getPasswordHash())) {
+        if (!password_verify($requestUser->getPassword(), $user->getPassword())) {
             throw $this->createAccessDeniedException('Password does not match this email '.$requestUser->getEmail());
         }
 
