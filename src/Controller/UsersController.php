@@ -21,7 +21,7 @@ class UsersController extends AbstractFOSRestController
     public function redirectAction()
     {
         $view = $this->redirectView($this->generateUrl('api_test'), 301);
-        // or
+        // or test
         $view = $this->routeRedirectView('api_test', array(), 301);
 
         return $this->handleView($view);
